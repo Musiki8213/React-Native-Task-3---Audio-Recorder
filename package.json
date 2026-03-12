@@ -5,10 +5,14 @@
   "scripts": {
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "prebuild": "expo prebuild --platform android",
+    "build:apk": "expo prebuild --platform android --clean && cd android && .\\gradlew assembleRelease && cd .. && node -e \"var fs=require('fs'),p=require('path');var src=p.join('android','app','build','outputs','apk','release','app-release.apk');var dest='app-release.apk';if(fs.existsSync(src)){fs.copyFileSync(src,dest);console.log('APK copied to: '+p.resolve(dest));}else{console.log('APK at: '+p.resolve(src));}\"",
+    "build:apk:debug": "expo prebuild --platform android --clean && cd android && .\\gradlew assembleDebug && cd ..",
+    "copy-apk": "node -e \"var fs=require('fs'),p=require('path');var src=p.join('android','app','build','outputs','apk','release','app-release.apk');var dest='app-release.apk';if(fs.existsSync(src)){fs.copyFileSync(src,dest);console.log('APK copied to: '+p.resolve(dest));}else{console.error('No APK found at '+src);process.exit(1);}\""
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
